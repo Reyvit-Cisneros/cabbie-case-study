@@ -15,17 +15,10 @@ The page presents the operational flow first and the data model below it.
 
 ## Operational overview
 
-```mermaid
-flowchart LR
-    V[Visitor] --> W[Public website and SEO]
-    W --> B[Booking flow]
-    B --> P[Fare rules]
-    B --> G[Geocoding cache]
-    B --> D[(Database with row-level security)]
-    D --> A[Admin panel]
-    A --> C[Site content]
-    D --> L[Audit log]
-```
+<a href="https://reyvit-cisneros.github.io/operational-flow/">
+  <img src="operational-flow.png" alt="Operational Flow" width="640">
+
+</a>
 
 [Open the animated operational flow](https://reyvit-cisneros.github.io/cabbie-case-study/cabbie-flujo-operativo.html)
 
@@ -33,98 +26,10 @@ flowchart LR
 
 Sanitized entity-relationship excerpt. Dashed relationships represent logical associations, not necessarily database foreign-key constraints. Redacted fields indicate omitted information, not actual database types.
 
-```mermaid
-erDiagram
-    AUTH_USERS ||--o| drivers : "user_id"
-    AUTH_USERS ||..o{ audit_log : "performed by"
-    drivers ||--o{ vehicles : "operates"
-    drivers ||--o{ bookings : "serves"
-    vehicles ||--o{ bookings : "assigned to"
-    bookings ||--o| service_ratings : "receives"
-    drivers ||--o{ service_ratings : "rated in"
-    pricing_rules ||..o{ bookings : "prices by vehicle_type"
-    geocode_cache ||..o{ bookings : "resolves origin and destination"
+<a href="https://reyvit-cisneros.github.io/data-model/">
+  <img src="data-model.png" alt="Data Model" width="640">
 
-    AUTH_USERS {
-        uuid id PK "Supabase Auth"
-    }
-    drivers {
-        uuid id PK
-        uuid user_id FK
-        redacted full_name "[redacted]"
-        redacted contact "[redacted]"
-        redacted license_number "[redacted]"
-        bool is_active
-        timestamptz created_at
-    }
-    vehicles {
-        uuid id PK
-        uuid driver_id FK
-        enum vehicle_type
-        int capacity
-        redacted plate_number "[redacted]"
-        bool is_active
-    }
-    bookings {
-        uuid id PK
-        uuid driver_id FK
-        uuid vehicle_id FK
-        enum service_type
-        enum vehicle_type
-        enum source "web | chat | manual"
-        enum status "booking lifecycle"
-        redacted customer_data "[redacted]"
-        jsonb stops "origin, destination, stops"
-        timestamptz pickup_datetime
-        timestamptz actual_start_end
-        numeric total_fare
-        bool confirmation_pending
-    }
-    service_ratings {
-        uuid id PK
-        uuid booking_id FK
-        uuid driver_id FK
-        int rating
-        int driver_rating
-        int vehicle_rating
-        int punctuality_rating
-    }
-    pricing_rules {
-        uuid id PK
-        enum vehicle_type
-        numeric base_km_minute_rates
-        numeric minimum_fare_and_fees
-        numeric surge_multiplier
-        text currency
-    }
-    geocode_cache {
-        uuid id PK
-        text query_hash
-        jsonb results
-        int hit_count
-        timestamptz expires_at
-    }
-    audit_log {
-        uuid id PK
-        text action
-        text table_name
-        jsonb old_new_data "change diff"
-        redacted network_metadata "[redacted]"
-        timestamptz created_at
-    }
-    site_content {
-        uuid id PK
-        text section
-        text content_key
-        jsonb value
-    }
-    rate_limits {
-        uuid id PK
-        redacted client_key "[redacted] hashed"
-        int request_count
-        timestamptz window_start
-    }
-```
+</a>
 
 [Open the animated data model](https://reyvit-cisneros.github.io/cabbie-case-study/cabbie-modelo-datos.html)
 
