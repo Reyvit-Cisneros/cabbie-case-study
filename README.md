@@ -1,10 +1,10 @@
+**ES** [Versión en español](cabbie-case-study_README.es.md)
+
 # Cabbie — Independent Product & Architecture Case Study
 
 > Status: **in progress** · Sanitized architecture excerpt: no credentials, customer records or production URLs.
 
 A ride-booking platform for a private driver service: public website, booking flow, driver management, fare rules, content management and audit trail.
-
-**ES** [Versión en español](cabbie-case-study_README.es.md)
 
 ## Interactive diagrams
 
