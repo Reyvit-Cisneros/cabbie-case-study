@@ -4,6 +4,8 @@
 
 A ride-booking platform for a private driver service: public website, booking flow, driver management, fare rules, content management and audit trail.
 
+**ES** [Versión en español](README.es.md)
+
 ## Interactive diagrams
 
 [View both interactive diagrams on one page](https://reyvit-cisneros.github.io/cabbie-case-study/)
